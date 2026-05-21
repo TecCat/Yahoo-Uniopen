@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniOpen ID 生態圈策略</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #7F6DE0;
+            --primary-dark: #5D4DB8;
+            --primary-light: #9F8EF0;
+            --accent: #00D9A3;
+            --accent-dark: #00B586;
+            --dark: #1A1A2E;
+            --dark-blue: #16213E;
+            --light: #F4F4F9;
+            --white: #FFFFFF;
+            --gradient-bg: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
+            --card-shadow: 0 8px 32px rgba(127, 109, 224, 0.2);
+            --card-shadow-hover: 0 12px 48px rgba(127, 109, 224, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Slides */
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 0 80px;
+            position: relative;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .slide:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .slide:nth-child(4) {
+            animation-delay: 0.6s;
+        }
+
+        .slide:nth-child(5) {
+            animation-delay: 0.8s;
+        }
+
+        /* Slide 0 - Strategy Framework */
+        .slide-0 {
+            background: var(--gradient-bg);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide-0::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 217, 163, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.2); opacity: 0.5; }
+        }
+
+        .framework-container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .framework-diagram {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(127, 109, 224, 0.3);
+            border-radius: 32px;
+            padding: 60px;
+            margin: 60px 0;
+            position: relative;
+        }
+
+        .core-box {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: 3px dashed var(--accent);
+            border-radius: 20px;
+            padding: 32px;
+            text-align: center;
+            margin-bottom: 48px;
+            box-shadow: 0 8px 32px rgba(127, 109, 224, 0.4);
+        }
+
+        .core-box h3 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .core-box p {
+            font-size: 18px;
+            color: var(--light);
+        }
+
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 48px;
+            position: relative;
+        }
+
+        .pillars-grid::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 30px;
+            background: var(--accent);
+        }
+
+        .pillar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(127, 109, 224, 0.2);
+            border-radius: 16px;
+            padding: 28px 20px;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .pillar::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 30px;
+            background: var(--accent);
+        }
+
+        .pillar:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary-light);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .pillar-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .pillar-items {
+            list-style: none;
+        }
+
+        .pillar-items li {
+            font-size: 15px;
+            color: var(--light);
+            padding: 8px 0;
+            line-height: 1.5;
+        }
+
+        .flywheel-section {
+            background: rgba(0, 217, 163, 0.1);
+            border: 2px solid var(--accent);
+            border-radius: 20px;
+            padding: 32px;
+            margin-top: 48px;
+            position: relative;
+        }
+
+        .flywheel-section::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 20px solid var(--accent);
+        }
+
+        .flywheel-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .flywheel-steps {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .flywheel-step {
+            font-size: 15px;
+            color: var(--light);
+            padding: 12px;
+            background: rgba(0, 217, 163, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .flywheel-step::before {
+            content: '→';
+            color: var(--accent);
+            font-size: 20px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .final-goal {
+            text-align: center;
+            margin-top: 24px;
+            padding: 20px;
+            background: rgba(127, 109, 224, 0.2);
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        /* Slide 1 - Hero */
+        .slide-1 {
+            background: var(--gradient-bg);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide-1::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(127, 109, 224, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-50px, 50px) rotate(180deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .slide-title {
+            font-size: 72px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            letter-spacing: -2px;
+        }
+
+        .slide-subtitle {
+            font-size: 28px;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 60px;
+            font-style: italic;
+        }
+
+        .formula-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(127, 109, 224, 0.3);
+            border-radius: 24px;
+            padding: 48px;
+            margin: 60px 0;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s ease;
+        }
+
+        .formula-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-shadow-hover);
+            border-color: var(--primary);
+        }
+
+        .formula-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: var(--white);
+        }
+
+        .formula-content {
+            font-size: 20px;
+            text-align: center;
+            color: var(--light);
+            line-height: 2;
+        }
+
+        .formula-divider {
+            display: block;
+            height: 3px;
+            background: var(--accent);
+            margin: 16px auto;
+            width: 60%;
+            border-radius: 2px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-top: 48px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s ease;
+        }
+
+        .feature-card:last-child {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--card-shadow-hover);
+        }
+
+        .feature-card h3 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .feature-card ul {
+            list-style: none;
+        }
+
+        .feature-card li {
+            padding: 8px 0;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .feature-card li::before {
+            content: '✓';
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .note {
+            margin-top: 48px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid var(--accent);
+            border-radius: 8px;
+            font-size: 14px;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Slide 2 - Stakeholders */
+        .slide-2 {
+            background: var(--white);
+        }
+
+        .slide-2 .slide-title {
+            font-size: 64px;
+            color: var(--dark);
+            margin-bottom: 16px;
+        }
+
+        .slide-2 .slide-subtitle {
+            color: var(--primary);
+            margin-bottom: 80px;
+        }
+
+        .stakeholder-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 80px;
+        }
+
+        .stakeholder-card {
+            background: var(--white);
+            border: 3px solid var(--primary);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s ease;
+        }
+
+        .stakeholder-card:hover {
+            transform: translateY(-12px) rotate(-1deg);
+            box-shadow: var(--card-shadow-hover);
+        }
+
+        .stakeholder-card:last-child {
+            border-color: var(--primary-light);
+        }
+
+        .stakeholder-header {
+            background: var(--primary);
+            padding: 24px 32px;
+            color: var(--white);
+        }
+
+        .stakeholder-card:last-child .stakeholder-header {
+            background: var(--primary-light);
+        }
+
+        .stakeholder-header h3 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .stakeholder-body {
+            padding: 32px;
+        }
+
+        .stakeholder-body ul {
+            list-style: none;
+            margin-bottom: 24px;
+        }
+
+        .stakeholder-body li {
+            padding: 12px 0;
+            font-size: 18px;
+            color: var(--dark);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .stakeholder-body li::before {
+            content: '✓';
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .highlight {
+            margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(127, 109, 224, 0.1), rgba(0, 217, 163, 0.1));
+            border-radius: 12px;
+        }
+
+        .highlight-label {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .highlight-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .ecosystem-section {
+            background: var(--gradient-bg);
+            padding: 60px;
+            border-radius: 24px;
+            color: var(--white);
+            box-shadow: var(--card-shadow);
+        }
+
+        .ecosystem-section h3 {
+            font-size: 32px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .ecosystem-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .ecosystem-item {
+            text-align: center;
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .ecosystem-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-8px);
+        }
+
+        .ecosystem-item h4 {
+            font-size: 20px;
+            color: var(--accent);
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .ecosystem-item p {
+            font-size: 16px;
+            color: var(--light);
+        }
+
+        /* Slide 3 - Roadmap */
+        .slide-3 {
+            background: var(--gradient-bg);
+            color: var(--white);
+            min-height: auto;
+            padding: 120px 0;
+        }
+
+        .slide-3 .slide-title {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+
+        .slide-3 .slide-subtitle {
+            margin-bottom: 80px;
+        }
+
+        .roadmap-timeline {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 80px;
+            position: relative;
+            padding: 40px 0;
+        }
+
+        .roadmap-timeline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transform: translateY(-50%);
+            z-index: 0;
+        }
+
+        .phase {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            background: var(--primary);
+            padding: 24px 32px;
+            border-radius: 16px;
+            min-width: 160px;
+            transition: all 0.4s ease;
+            border: 2px solid var(--primary-light);
+        }
+
+        .phase:hover {
+            transform: translateY(-12px) scale(1.05);
+            box-shadow: 0 16px 48px rgba(127, 109, 224, 0.4);
+        }
+
+        .phase-3, .phase-4 {
+            background: var(--primary-light);
+        }
+
+        .phase-4 {
+            background: var(--accent);
+            min-width: 120px;
+        }
+
+        .phase h4 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .phase p {
+            font-size: 16px;
+            color: var(--light);
+        }
+
+        .phase-arrow {
+            width: 40px;
+            height: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .phase-arrow::before {
+            content: '→';
+            font-size: 32px;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .phase-details {
+            margin-top: 48px;
+            padding: 48px 0;
+        }
+
+        .phase-list {
+            list-style: none;
+            margin-top: 16px;
+        }
+
+        .phase-list li {
+            padding: 12px 0;
+            font-size: 17px;
+            color: var(--light);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .phase-list li::before {
+            content: '•';
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 24px;
+            line-height: 1;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 48px;
+            border-radius: 24px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .detail-section h4 {
+            font-size: 24px;
+            margin-bottom: 24px;
+            color: var(--white);
+            font-weight: 700;
+        }
+
+        .detail-section:first-child h4 {
+            color: var(--primary-light);
+        }
+
+        .detail-section:last-child h4 {
+            color: var(--accent);
+        }
+
+        .milestone {
+            margin-top: 60px;
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 2px solid var(--accent);
+        }
+
+        .milestone h4 {
+            font-size: 24px;
+            color: var(--accent);
+            margin-bottom: 24px;
+            font-weight: 700;
+        }
+
+        .milestone-timeline {
+            font-size: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--light);
+            font-weight: 600;
+        }
+
+        .milestone-timeline span {
+            color: var(--accent);
+            padding: 0 12px;
+            font-weight: 700;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .slide-title {
+                font-size: 48px !important;
+            }
+
+            .slide-subtitle {
+                font-size: 20px !important;
+            }
+
+            .features-grid,
+            .stakeholder-cards,
+            .ecosystem-grid,
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .roadmap-timeline {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .roadmap-timeline::before {
+                display: none;
+            }
+
+            .phase-arrow {
+                transform: rotate(90deg);
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="logo">UniOpen ID</div>
+            <ul class="nav-links">
+                <li><a href="#slide0">策略框架</a></li>
+                <li><a href="#slide1">新指標</a></li>
+                <li><a href="#slide2">價值主張</a></li>
+                <li><a href="#slide3">路線圖</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Slide 0: 策略框架總覽 -->
+    <section id="slide0" class="slide slide-0">
+        <div class="container">
+            <div class="framework-container">
+                <h1 class="slide-title">UniOpen ID 策略框架</h1>
+                <p class="slide-subtitle">啟動 OMO 飛輪，驅動 GMV 與 RMN 雙引擎</p>
+
+                <div class="framework-diagram">
+                    <!-- 核心 -->
+                    <div class="core-box">
+                        <h3>UniOpen ID</h3>
+                        <p>跨通路數據庫</p>
+                    </div>
+
+                    <!-- 三大支柱 -->
+                    <div class="pillars-grid">
+                        <div class="pillar">
+                            <div class="pillar-title">【GMV 提升】</div>
+                            <ul class="pillar-items">
+                                <li>個人化推薦</li>
+                                <li>大件品牌解鎖</li>
+                                <li>庫存可視化</li>
+                            </ul>
+                        </div>
+
+                        <div class="pillar">
+                            <div class="pillar-title">【RMN 廣告】</div>
+                            <ul class="pillar-items">
+                                <li>站內搜尋廣告</li>
+                                <li>跨通路受眾包</li>
+                                <li>實體場域廣告</li>
+                            </ul>
+                        </div>
+
+                        <div class="pillar">
+                            <div class="pillar-title">【數據強化】</div>
+                            <ul class="pillar-items">
+                                <li>受眾包販售</li>
+                                <li>洞察報告</li>
+                                <li>品牌研究</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 飛輪效應 -->
+                    <div class="flywheel-section">
+                        <div class="flywheel-title">飛輪持續轉動</div>
+                        <div class="flywheel-steps">
+                            <div class="flywheel-step">更多交易</div>
+                            <div class="flywheel-step">更多數據</div>
+                            <div class="flywheel-step">更多數據</div>
+                            <div class="flywheel-step">更精準廣告</div>
+                            <div class="flywheel-step">更精準廣告</div>
+                            <div class="flywheel-step">更多品牌主</div>
+                            <div class="flywheel-step">更多品牌主</div>
+                            <div class="flywheel-step">更多流量回歸 GMV</div>
+                        </div>
+                        <div class="final-goal">
+                            最終目標：GMV ↑ + RMN 廣告收入 ↑
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 1: 定義新指標 -->
+    <section id="slide1" class="slide slide-1">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="slide-title">定義新指標</h1>
+                <p class="slide-subtitle">數據驅動的全通路目標</p>
+
+                <div class="formula-card">
+                    <h2 class="formula-title">UniOpen ID 全通路 GMV 佔比</h2>
+                    <div class="formula-content">
+                        使用 UniOpen ID 登入並完成交易的 Yahoo 訂單數
+                        <span class="formula-divider"></span>
+                        Yahoo 總訂單數
+                    </div>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3>Pro</h3>
+                        <ul>
+                            <li>三方都看得懂</li>
+                            <li>都有動機追</li>
+                            <li>反映 OMO 真實價值</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3>數據變現引擎</h3>
+                        <ul>
+                            <li>RMN 零售媒體網路</li>
+                            <li>高毛利率 | GMV 增長</li>
+                            <li>告別價格戰</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="note">
+                    <strong>註：</strong>分子涵蓋 Yahoo 線上成交、7-11 自取/退貨、家樂福前置倉配送等所有綁定 UniOpen ID 之交易數據
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 2: Stakeholders Buy-In -->
+    <section id="slide2" class="slide slide-2">
+        <div class="container">
+            <h1 class="slide-title">Stakeholder Buy-In</h1>
+            <p class="slide-subtitle">各方價值主張</p>
+
+            <div class="stakeholder-cards">
+                <div class="stakeholder-card">
+                    <div class="stakeholder-header">
+                        <h3>What's in for 7-ELEVEN?</h3>
+                    </div>
+                    <div class="stakeholder-body">
+                        <ul>
+                            <li>Yahoo 導流 + 門市取貨人流增加</li>
+                        </ul>
+                        <div class="highlight">
+                            <div class="highlight-label">提案重點：</div>
+                            <div class="highlight-value">附帶消費</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stakeholder-card">
+                    <div class="stakeholder-header">
+                        <h3>What's in for 家樂福?</h3>
+                    </div>
+                    <div class="stakeholder-body">
+                        <ul>
+                            <li>線上下單 + 到店體驗確認</li>
+                            <li>大件商品展示功能</li>
+                        </ul>
+                        <div class="highlight">
+                            <div class="highlight-label">提案重點：</div>
+                            <div class="highlight-value">附帶消費 + 加快庫存周轉</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ecosystem-section">
+                <h3>生態圈共贏模式</h3>
+                <div class="ecosystem-grid">
+                    <div class="ecosystem-item">
+                        <h4>Yahoo</h4>
+                        <p>全通路 GMV 提升</p>
+                    </div>
+                    <div class="ecosystem-item">
+                        <h4>7-ELEVEN</h4>
+                        <p>門市人流+附帶銷售</p>
+                    </div>
+                    <div class="ecosystem-item">
+                        <h4>家樂福</h4>
+                        <p>庫存周轉+到店轉換</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: Roadmap -->
+    <section id="slide3" class="slide slide-3">
+        <div class="container">
+            <h1 class="slide-title">Roadmap</h1>
+            <p class="slide-subtitle">UniOpen ID 生態圈執行路徑</p>
+
+            <div class="roadmap-timeline">
+                <div class="phase phase-0">
+                    <h4>Phase 0</h4>
+                    <p>資產盤點</p>
+                </div>
+                <div class="phase-arrow"></div>
+                <div class="phase phase-1">
+                    <h4>Phase 1</h4>
+                    <p>雙軌上線</p>
+                </div>
+                <div class="phase-arrow"></div>
+                <div class="phase phase-2">
+                    <h4>Phase 2</h4>
+                    <p>跨BU行銷</p>
+                </div>
+                <div class="phase-arrow"></div>
+                <div class="phase phase-3">
+                    <h4>Phase 3</h4>
+                    <p>智慧化</p>
+                </div>
+                <div class="phase-arrow"></div>
+                <div class="phase phase-4">
+                    <h4>Phase 4</h4>
+                    <p>擴張</p>
+                </div>
+            </div>
+
+            <div class="phase-details">
+                <div class="details-grid">
+                    <div class="detail-section">
+                        <h4>Phase 0：資產盤點</h4>
+                        <ul class="phase-list">
+                            <li>UniOpen ID 深度啟用</li>
+                            <li>跨通路數據基礎建立</li>
+                        </ul>
+                    </div>
+
+                    <div class="detail-section">
+                        <h4>Phase 1：雙軌上線</h4>
+                        <ul class="phase-list">
+                            <li>7-11 取退貨數據深化</li>
+                            <li>家樂福倉上線</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="details-grid" style="margin-top: 32px;">
+                    <div class="detail-section">
+                        <h4>Phase 2：跨BU行銷</h4>
+                        <ul class="phase-list">
+                            <li>UniOpen ID 跨平台行為標籤建立</li>
+                            <li>個人化取貨點推薦</li>
+                        </ul>
+                    </div>
+
+                    <div class="detail-section">
+                        <h4>Phase 3：供應鏈智慧化 + 分潤精算</h4>
+                        <ul class="phase-list">
+                            <li>廣告歸因三方共用</li>
+                            <li>需求預測模型</li>
+                            <li>跨倉調撥自動化</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="details-grid" style="margin-top: 32px;">
+                    <div class="detail-section">
+                        <h4>Phase 4：UniOpen ID 生態擴張</h4>
+                        <ul class="phase-list">
+                            <li>數據貨幣化收入</li>
+                            <li>第三方夥伴引入</li>
+                            <li>生態平台建構</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
